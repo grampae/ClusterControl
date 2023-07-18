@@ -20,6 +20,9 @@ An authenticated SQL injection was detected within the “hostname” and “sen
 
 
 
+Using the default configuration there are two levels of authentication available in the web ui, ‘admins’ and ‘users’.  The Post request below is supposed to only be available to the ‘admins’ level accounts.  However, when we replace the ‘admins’ cookies in the request with a ‘users’ cookies it still completes the request and the subsequent sql injection.
+This allows a lower-level user to perform a sql injection through the web ui and elevate privileges by accessing all databases, etc.
+
 ```
 POST /clustercontrol/access2/settings?clusterid=0&operation=set_mailserver HTTP/1.1
 Host: x.x.x.x
@@ -36,9 +39,6 @@ Cookie: _ga=GA1.1.16598096.1628429909; _gid=GA1.1.2049508896.1628429909; PHPSESS
 Connection: close
 {“smtp_server”:{“hostname”:”testhostname”,”password”:” testpassword “,”port”:356,”sender”:”testuser@test.com”,”use_tls”:false,”username”:”testuser”}}
 ```
-
-Using the default configuration there are two levels of authentication available in the web ui, ‘admins’ and ‘users’.  The Post request below is supposed to only be available to the ‘admins’ level accounts.  However, when we replace the ‘admins’ cookies in the request with a ‘users’ cookies it still completes the request and the subsequent sql injection.
-This allows a lower-level user to perform a sql injection through the web ui and elevate privileges by accessing all databases, etc.
 
 I would like to congratulate Severalnines on their stellar time to fix with this issue.
 
